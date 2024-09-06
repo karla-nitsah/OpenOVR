@@ -74,7 +74,7 @@ IndexControllerInteractionProfile::IndexControllerInteractionProfile()
 	 * SteamVR\drivers\indexcontroller\resources\rendermodels\valve_controller_knu_1_0_left\valve_controller_knu_1_0_left.json
 	 */
 	glm::mat4 inverseGripTransformLeft = GetMat4x4FromOriginAndEulerRotations(
-	    { 0.0, -0.015, 0.13 },
+	    { -0.003851, 0.003715, 0.075948 },
 	    { 15.392, -2.071, 0.303 });
 
 	/*
@@ -82,7 +82,7 @@ IndexControllerInteractionProfile::IndexControllerInteractionProfile()
 	 * SteamVR\drivers\indexcontroller\resources\rendermodels\valve_controller_knu_1_0_right\valve_controller_knu_1_0_right.json
 	 */
 	glm::mat4 inverseGripTransformRight = GetMat4x4FromOriginAndEulerRotations(
-	    { 0.0, -0.015, 0.13 },
+	    { 0.003851, 0.003715, 0.075948 },
 	    { 15.392, 2.071, -0.303 });
 
 	this->leftHandGripTransform = glm::affineInverse(inverseGripTransformLeft);
