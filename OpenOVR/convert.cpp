@@ -182,3 +182,28 @@ glm::mat4 S2G_m34(const vr::HmdMatrix34_t& mat)
 	}
 	return out;
 }
+
+VRBoneTransform_t O2S_vrbtf(const HmdMatrix34_t& mat)
+{
+    VRBoneTransform_t out;
+
+    out.position.v[0] = mat.m[0][3];
+    out.position.v[1] = mat.m[1][3];
+    out.position.v[2] = mat.m[2][3];
+    out.position.v[3] = 1.0f;
+
+    glm::mat3 rotationMatrix(
+        mat.m[0][0], mat.m[0][1], mat.m[0][2],
+        mat.m[1][0], mat.m[1][1], mat.m[1][2],
+        mat.m[2][0], mat.m[2][1], mat.m[2][2]
+    );
+
+    glm::quat orientation = glm::quat_cast(rotationMatrix);
+
+    out.orientation.w = orientation.w;
+    out.orientation.x = orientation.x;
+    out.orientation.y = orientation.y;
+    out.orientation.z = orientation.z;
+
+    return out;
+}

@@ -24,3 +24,4 @@ vr::HmdVector3_t G2S_v3f(const glm::vec3& vec);
 vr::HmdMatrix34_t G2S_m34(const glm::mat4& mat);
 
 vr::HmdVector3_t X2S_v3f(const XrVector3f& vec);
+vr::VRBoneTransform_t O2S_vrbtf(const vr::HmdMatrix34_t& mat);

@@ -1,3 +1,4 @@
+#include "Drivers/Backend.h"
 #include "Misc/xrmoreutils.h"
 #include "stdafx.h"
 #include <glm/gtx/matrix_decompose.hpp>
@@ -5,6 +6,11 @@
 #define BASE_IMPL
 #include "BaseInput.h"
 #include "BaseInput_HandPoses.hpp"
+
+#include "generated/static_bases.gen.h"
+
+// Use RenderModels for the pose offsets, which are the same as component positions
+#include "BaseRenderModels.h"
 
 #include <convert.h>
 
@@ -45,9 +51,22 @@ static glm::mat4 readBoneTransform(const vr::VRBoneTransform_t& src)
 // Any others? Please add them to the list!
 void BaseInput::ConvertHandModelSpace(const std::vector<XrHandJointLocationEXT>& joints, bool isRight, VRBoneTransform_t* output)
 {
-	// The root bone should just be left at identity? TODO check SteamVR
-	output[eBone_Root].orientation = vr::HmdQuaternionf_t{ /* w */ 1, 0, 0, 0 };
-	output[eBone_Root].position = vr::HmdVector4_t{ 0, 0, 0, 1 };
+	ITrackedDevice::TrackedDeviceType handType;
+	if (isRight) {
+		handType = ITrackedDevice::HAND_RIGHT;
+	} else {
+		handType = ITrackedDevice::HAND_LEFT;
+	}
+
+	OOVR_RenderModel_ComponentState_t state = {};
+	bool hasTransform = GetBaseRenderModels()->TryGetComponentState(handType, "handgrip", &state);
+
+	if (hasTransform) {
+		output[eBone_Root] = O2S_vrbtf(state.mTrackingToComponentLocal);
+	} else {
+		output[eBone_Root].orientation = vr::HmdQuaternionf_t{ /* w */ 1, 0, 0, 0 };
+		output[eBone_Root].position = vr::HmdVector4_t{ 0, 0, 0, 1 };
+	}
 
 	// Note: go to https://gltf-viewer.donmccurdy.com/ and load up the hand glTF model from the test suite
 	// Turn the axes on and compare it to the OpenXR hand tracking extension diagram:
