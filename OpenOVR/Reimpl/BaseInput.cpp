@@ -1678,8 +1678,7 @@ EVRInputError BaseInput::GetSkeletalBoneData(VRActionHandle_t actionHandle, EVRS
 	OOVR_FAILED_XR_ABORT(xr_ext->xrLocateHandJointsEXT(handTrackers[(int)action->skeletalHand], &locateInfo, &locations));
 
 	if (!locations.isActive) {
-		// Leave empty-handed, IDK if this is the right error or not
-		return vr::VRInputError_InvalidSkeleton;
+		return getEstimatedBoneData(hand, eTransformSpace, std::span<VRBoneTransform_t, eBone_Count>(pTransformArray, eBone_Count));
 	}
 
 	bool isRight = (action->skeletalHand == ITrackedDevice::HAND_RIGHT);
@@ -1720,8 +1719,7 @@ EVRInputError BaseInput::getRealSkeletalSummary(ITrackedDevice::TrackedDeviceTyp
 	OOVR_FAILED_XR_ABORT(xr_ext->xrLocateHandJointsEXT(handTrackers[hand], &locateInfo, &locations));
 
 	if (!locations.isActive) {
-		// Leave empty-handed, IDK if this is the right error or not
-		return vr::VRInputError_InvalidSkeleton;
+		return getEstimatedSkeletalSummary(hand, pSkeletalSummaryData);
 	}
 
 	for (int i = 0; i < 5; ++i) {
