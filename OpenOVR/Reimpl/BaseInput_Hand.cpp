@@ -311,7 +311,10 @@ EVRInputError BaseInput::getEstimatedBoneData(
 			std::ranges::copy(
 			    boneDataGen(left_hand::bindPoseParentSpace, left_hand::squeezeParentSpace, left_hand::openHandParentSpace),
 			    boneData.begin());
-			boneData[eBone_Root].position.v[2] -= handZDisplacement;
+//			boneData[eBone_Root].position.v[2] -= handZDisplacement;
+			boneData[eBone_Root].position.v[0] -= 0.03; // palm out
+			boneData[eBone_Root].position.v[1] += 0.04; // thumb up?
+			boneData[eBone_Root].position.v[2] -= 0.15;
 			break;
 		}
 		}
@@ -330,7 +333,9 @@ EVRInputError BaseInput::getEstimatedBoneData(
 			std::ranges::copy(
 			    boneDataGen(right_hand::bindPoseParentSpace, right_hand::squeezeParentSpace, right_hand::openHandParentSpace),
 			    boneData.begin());
-			boneData[eBone_Root].position.v[2] -= handZDisplacement;
+			boneData[eBone_Root].position.v[0] -= 0.04;
+			boneData[eBone_Root].position.v[1] += 0.05;
+			boneData[eBone_Root].position.v[2] -= 0.15;
 			break;
 		}
 		}

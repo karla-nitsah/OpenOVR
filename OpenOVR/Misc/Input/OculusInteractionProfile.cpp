@@ -93,14 +93,15 @@ OculusTouchInteractionProfile::OculusTouchInteractionProfile()
 	// Made from values in: SteamVR\resources\rendermodels\oculus_quest2_controller_left\oculus_quest2_controller_left.json
 	// openxr_grip
 	glm::mat4 inverseGripTransformLeft = GetMat4x4FromOriginAndEulerRotations(
-	    { 0.007, -0.00182941, 0.1019482 },
-	    { 20.6, 0.0, 0.0 });
+	// palm up, thumb up, ??
+	    { 0.0, 0.04, 0.1019482 },
+	    { -6.0, 0.0, 0.0 });
 
 	// Made from values in: SteamVR\resources\rendermodels\oculus_quest2_controller_right\oculus_quest2_controller_right.json
 	// openxr_grip
 	glm::mat4 inverseGripTransformRight = GetMat4x4FromOriginAndEulerRotations(
-	    { -0.007, -0.00182941, 0.1019482 },
-	    { 20.6, 0.0, 0.0 });
+	    { 0.0, 0.04, 0.1019482 },
+	    { -6.0, 0.0, 0.0 });
 
 	this->leftHandGripTransform = glm::affineInverse(inverseGripTransformLeft);
 	this->rightHandGripTransform = glm::affineInverse(inverseGripTransformRight);
